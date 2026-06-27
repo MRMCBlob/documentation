@@ -1,0 +1,60 @@
+# Component Catalog
+
+Built-in views provided by `zelto/ui` (and the `libzelto` C macros). All are declarative
+values that accept options and chained modifiers ([../guides/styling-theming.md](../guides/styling-theming)).
+
+## Content
+
+| Component | Purpose | Doc |
+|---|---|---|
+| `Text` | Text / labels | [components/text.md](components/text) |
+| `Image` | Images, icons, remote/asset | [components/image.md](components/image) |
+| `Button` | Tappable action | [components/button.md](components/button) |
+| `TextField` | Text input | [components/textfield.md](components/textfield) |
+| `Switch` | On/off toggle | [components/switch.md](components/switch) |
+| `Slider` | Continuous value | [components/slider.md](components/slider) |
+| `Progress` / `Spinner` | Progress + loading | [components/progress.md](components/progress) |
+
+## Layout
+
+| Component | Purpose | Doc |
+|---|---|---|
+| `VStack` / `HStack` / `ZStack` | Stacks | [components/stack.md](components/stack) |
+| `Spacer` | Flexible gap | [components/stack.md](components/stack) |
+| `Grid` | Grid layout | [components/grid.md](components/grid) |
+| `Scroll` | Scrollable region | [components/scroll.md](components/scroll) |
+| `List` | Recycled long lists | [components/list.md](components/list) |
+
+## Navigation & presentation
+
+| Component | Purpose | Doc |
+|---|---|---|
+| `Navigator` / `NavBar` | Stack navigation + bar | [components/navbar.md](components/navbar) |
+| `TabView` / `TabBar` | Tabs | [components/tabbar.md](components/tabbar) |
+| `Sheet` / `Modal` / `Alert` | Presentations | [components/sheet.md](components/sheet) |
+
+## Conventions
+
+- **Options** are passed as the first argument (an object in Script, designated
+  initializers in C). **Children** follow.
+- **Modifiers** are chained: `.padding()`, `.font()`, `.onTap()`, etc.
+- Components read **design tokens** by default so they match the system theme
+  ([../overview/design-language.md](../overview/design-language)).
+- Every component here has a C equivalent — see [../api-reference/c/ui.md](../api-reference/c/ui).
+
+## Example
+
+```js
+VStack({ spacing: 12, padding: 16 }, [
+  Text("Profile").font("largeTitle"),
+  HStack({ spacing: 12 }, [
+    Image(user.avatar).frame(56, 56).cornerRadius("full"),
+    VStack({ spacing: 2, align: "leading" }, [
+      Text(user.name).font("title"),
+      Text(user.email).font("callout").foreground("text.secondary"),
+    ]),
+    Spacer(),
+    Button.icon("settings", openSettings),
+  ]),
+]);
+```

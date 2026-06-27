@@ -9,12 +9,154 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "pages": [
+    "groups": [
       {
         "group": "Getting Started",
         "pages": [
           "index",
-          "quickstart"
+          "quickstart",
+          "getting-started/install-sdk",
+          "getting-started/simulator",
+          "getting-started/run-on-device"
+        ]
+      },
+      {
+        "group": "Overview",
+        "pages": [
+          "overview/introduction",
+          "overview/architecture-overview",
+          "overview/how-it-runs-apks",
+          "overview/design-language"
+        ]
+      },
+      {
+        "group": "Guides",
+        "pages": [
+          "guides/declarative-ui",
+          "guides/layout",
+          "guides/styling-theming",
+          "guides/state-management",
+          "guides/navigation",
+          "guides/gestures",
+          "guides/animation",
+          "guides/networking",
+          "guides/storage",
+          "guides/notifications",
+          "guides/background-tasks",
+          "guides/interop-c-and-script"
+        ]
+      },
+      {
+        "group": "UI",
+        "pages": [
+          "ui/components-index",
+          {
+            "group": "Components",
+            "pages": [
+              "ui/components/text",
+              "ui/components/button",
+              "ui/components/image",
+              "ui/components/stack",
+              "ui/components/grid",
+              "ui/components/list",
+              "ui/components/scroll",
+              "ui/components/navbar",
+              "ui/components/tabbar",
+              "ui/components/sheet",
+              "ui/components/textfield",
+              "ui/components/switch",
+              "ui/components/slider",
+              "ui/components/progress"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Zelto Script",
+        "pages": [
+          "zelto-script/language",
+          "zelto-script/stdlib",
+          "zelto-script/runtime"
+        ]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api-reference/conventions",
+          {
+            "group": "C (libzelto)",
+            "pages": [
+              "api-reference/c/ui",
+              "api-reference/c/gfx",
+              "api-reference/c/system",
+              "api-reference/c/platform"
+            ]
+          },
+          {
+            "group": "Zelto Script",
+            "pages": [
+              "api-reference/script/zelto-core",
+              "api-reference/script/ui",
+              "api-reference/script/storage",
+              "api-reference/script/net",
+              "api-reference/script/media",
+              "api-reference/script/sensors",
+              "api-reference/script/notifications",
+              "api-reference/script/permissions"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "System APIs",
+        "pages": [
+          "system-apis/camera",
+          "system-apis/media",
+          "system-apis/location",
+          "system-apis/sensors",
+          "system-apis/contacts",
+          "system-apis/biometrics",
+          "system-apis/clipboard",
+          "system-apis/share"
+        ]
+      },
+      {
+        "group": "Platform",
+        "pages": [
+          "platform/app-lifecycle",
+          "platform/permissions",
+          "platform/ipc-and-intents",
+          "platform/apk-interop"
+        ]
+      },
+      {
+        "group": "Packaging",
+        "pages": [
+          "packaging/manifest",
+          "packaging/zap-format",
+          "packaging/signing",
+          "packaging/publishing"
+        ]
+      },
+      {
+        "group": "Tooling",
+        "pages": [
+          "tooling/cli",
+          "tooling/simulator",
+          "tooling/debugging",
+          "tooling/profiling"
+        ]
+      },
+      {
+        "group": "Contributing",
+        "pages": [
+          "contributing/repo-layout",
+          "contributing/build-zelto-os",
+          "contributing/coding-standards",
+          "contributing/compositor-internals",
+          "contributing/sdk-internals",
+          "contributing/services-and-ipc",
+          "contributing/porting-to-a-device"
         ]
       }
     ],

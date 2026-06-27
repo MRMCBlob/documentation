@@ -1,47 +1,133 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Build, run, and edit your first Zelto app — the fastest path to a working app."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+This walkthrough builds, runs, and edits your first Zelto app — in **Zelto Script** (the
+recommended path) and in **C** (for native modules / maximum performance). It uses only
+documented CLI commands and APIs.
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+Prerequisite: [Install the SDK](/getting-started/install-sdk) and a working `zelto doctor`.
 
-## Prerequisites
+## 1. Scaffold
 
-Before you begin, you must have:
+```sh
+zelto new hello
+cd hello
+```
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+This creates:
 
-## Get started
+```
+hello/
+  zelto.toml        # app manifest (see /packaging/manifest)
+  src/
+    main.js         # entry point (Zelto Script)
+  assets/
+    icon.png
+```
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+The generated `zelto.toml`:
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+```toml
+[app]
+id = "dev.example.hello"
+name = "Hello"
+version = "1.0.0"
+icon = "assets/icon.png"
+entry = "src/main.js"
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+[permissions]
+notifications = false
+```
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+## 2. The app (Zelto Script)
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+`src/main.js`:
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+```js
+import { VStack, Text, Button } from "zelto/ui";
+import { useState } from "zelto";
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  return VStack({ spacing: 12, padding: 16, align: "center" }, [
+    Text(`Count: ${count}`).font("title"),
+    Button("Increment", () => setCount(count + 1)).filled(),
+  ]);
+}
+```
+
+- `export default` is your root component — a function that returns a view tree.
+- `useState` holds state; calling `setCount` re-runs the function and the framework
+  updates only what changed. See [State management](/guides/state-management).
+- `.font(...)` and `.filled()` are **modifiers** (chained styling) — see
+  [Styling & theming](/guides/styling-theming).
+
+## 3. Run it in the simulator
+
+```sh
+zelto run --simulator
+```
+
+A phone-sized window opens running your app. Edits to `src/main.js` hot-reload. See
+[Simulator](/getting-started/simulator).
+
+## 4. Same app in C
+
+For a native (C) app, set the entry to a native library and write the view tree with the
+`libzelto` macros. `zelto.toml`:
+
+```toml
+[app]
+id = "dev.example.hello"
+name = "Hello"
+version = "1.0.0"
+entry = "lib"        # native entry; build produces libapp.so
+```
+
+`src/main.c`:
+
+```c
+#include <zelto/ui.h>
+
+typedef struct { int count; } State;
+
+static ZView body(ZApp *app, State *s) {
+  return VStack(.spacing = 12, .padding = 16, .align = Z_ALIGN_CENTER,
+    Text("Count: %d", s->count),
+    Button("Increment", ZACT({ s->count++; z_invalidate(app); })));
+}
+
+Z_APP(State, body)   // declares the entry point + state type
+```
+
+- `VStack(...)` and friends are variadic macros that build the tree using designated
+  initializers for options.
+- `ZACT({ ... })` wraps a callback body.
+- `z_invalidate(app)` requests a rebuild (the C equivalent of `setState`).
+- `Z_APP(StateType, bodyFn)` generates the entry point. See
+  [C UI reference](/api-reference/c/ui).
+
+Build + run:
+
+```sh
+zelto run --simulator
+```
+
+## 5. Build a package
+
+```sh
+zelto build --release      # produces hello-1.0.0.zap
+```
+
+See [.zap format](/packaging/zap-format) and
+[Run on device](/getting-started/run-on-device) to install it on a phone.
+
+## Where to go next
+
+- [Declarative UI](/guides/declarative-ui) — the view-tree model.
+- [Layout](/guides/layout) — stacks, flex, frames.
+- [Components](/ui/components-index) — every built-in view.
+</content>
