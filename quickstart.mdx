@@ -3,9 +3,7 @@ title: "Quickstart"
 description: "Build, run, and edit your first Zelto app — the fastest path to a working app."
 ---
 
-This walkthrough builds, runs, and edits your first Zelto app — in **Zelto Script** (the
-recommended path) and in **C** (for native modules / maximum performance). It uses only
-documented CLI commands and APIs.
+This walkthrough builds, runs, and edits your first Zelto app — in **Zelto Script** (the recommended path) and in **C** (for native modules / maximum performance). It uses only documented CLI commands and APIs.
 
 Prerequisite: [Install the SDK](/getting-started/install-sdk) and a working `zelto doctor`.
 
@@ -18,7 +16,7 @@ cd hello
 
 This creates:
 
-```
+```text
 hello/
   zelto.toml        # app manifest (see /packaging/manifest)
   src/
@@ -60,10 +58,8 @@ export default function App() {
 ```
 
 - `export default` is your root component — a function that returns a view tree.
-- `useState` holds state; calling `setCount` re-runs the function and the framework
-  updates only what changed. See [State management](/guides/state-management).
-- `.font(...)` and `.filled()` are **modifiers** (chained styling) — see
-  [Styling & theming](/guides/styling-theming).
+- `useState` holds state; calling `setCount` re-runs the function and the framework updates only what changed. See [State management](/guides/state-management).
+- `.font(...)` and `.filled()` are **modifiers** (chained styling) — see [Styling & theming](/guides/styling-theming).
 
 ## 3. Run it in the simulator
 
@@ -71,13 +67,11 @@ export default function App() {
 zelto run --simulator
 ```
 
-A phone-sized window opens running your app. Edits to `src/main.js` hot-reload. See
-[Simulator](/getting-started/simulator).
+A phone-sized window opens running your app. Edits to `src/main.js` hot-reload. See [Simulator](/getting-started/simulator).
 
 ## 4. Same app in C
 
-For a native (C) app, set the entry to a native library and write the view tree with the
-`libzelto` macros. `zelto.toml`:
+For a native (C) app, set the entry to a native library and write the view tree with the `libzelto` macros. `zelto.toml`:
 
 ```toml
 [app]
@@ -103,14 +97,12 @@ static ZView body(ZApp *app, State *s) {
 Z_APP(State, body)   // declares the entry point + state type
 ```
 
-- `VStack(...)` and friends are variadic macros that build the tree using designated
-  initializers for options.
+- `VStack(...)` and friends are variadic macros that build the tree using designated initializers for options.
 - `ZACT({ ... })` wraps a callback body.
 - `z_invalidate(app)` requests a rebuild (the C equivalent of `setState`).
-- `Z_APP(StateType, bodyFn)` generates the entry point. See
-  [C UI reference](/api-reference/c/ui).
+- `Z_APP(StateType, bodyFn)` generates the entry point. See [C UI reference](/api-reference/c/ui).
 
-Build + run:
+Build \+ run:
 
 ```sh
 zelto run --simulator
@@ -122,12 +114,10 @@ zelto run --simulator
 zelto build --release      # produces hello-1.0.0.zap
 ```
 
-See [.zap format](/packaging/zap-format) and
-[Run on device](/getting-started/run-on-device) to install it on a phone.
+See [.zap format](/packaging/zap-format) and [Run on device](/getting-started/run-on-device) to install it on a phone.
 
 ## Where to go next
 
 - [Declarative UI](/guides/declarative-ui) — the view-tree model.
 - [Layout](/guides/layout) — stacks, flex, frames.
 - [Components](/ui/components-index) — every built-in view.
-</content>
