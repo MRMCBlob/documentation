@@ -1,28 +1,31 @@
+---
+title: "app-lifecycle"
+---
+
 # App Lifecycle
 
-A Zelto app moves through a small set of states as the user opens, switches, and closes
-it. Respond to transitions to save state, pause work, and resume cleanly.
+A Zelto app moves through a small set of states as the user opens, switches, and closes it. Respond to transitions to save state, pause work, and resume cleanly.
 
 ## States
 
-```
+```text
         launch
-          │
-          ▼
-      ┌────────┐  resume   ┌─────────┐
-      │ Active │◄──────────│ Inactive│
-      │ (fg)   │──────────►│ (paused)│
-      └────────┘  pause    └─────────┘
+         │
+         ▼
+      ┌────────┐  resume          ┌─────────┐
+      │ Active      │◄──────────│ Inactive     │
+      │ (fg)        │──────────►│ (paused)     │
+      └────────┘  pause           └─────────┘
                                 │ stop
                                 ▼
                            ┌─────────┐  terminate
-                           │ Stopped │───────────► (process killed)
-                           │ (bg)    │
+                           │ Stopped      │───────────► (process killed)
+                           │ (bg)         │
                            └─────────┘
 ```
 
 | State | Meaning |
-|---|---|
+| --- | --- |
 | **Active** | Foreground, receiving input. |
 | **Inactive** | Transient (e.g. during a switch, a system prompt over the app). |
 | **Stopped** | Backgrounded; soon suspended. May be terminated without further notice. |
@@ -43,23 +46,17 @@ app.onLifecycle((ev) => {
 });
 ```
 
-In **C**: `z_on_lifecycle(app, cb, ud)` with `Z_LC_*` events
-([../api-reference/c/platform.md](../api-reference/c/platform)).
+In **C**: `z_on_lifecycle(app, cb, ud)` with `Z_LC_*` events ([../api-reference/c/platform.md](../api-reference/c/platform)).
 
 ## Rules of thumb
 
-- **Save on `pause`.** Treat every `pause` as "might not run again." Persist user data and
-  navigation state.
-- **Release on `stop`.** Drop sensors, camera, timers, and large buffers; re-acquire on
-  `resume`.
-- **Don't assume `terminate` fires.** The system may kill a stopped app silently to
-  reclaim memory.
+- **Save on `pause`.** Treat every `pause` as "might not run again." Persist user data and navigation state.
+- **Release on `stop`.** Drop sensors, camera, timers, and large buffers; re-acquire on `resume`.
+- **Don't assume `terminate` fires.** The system may kill a stopped app silently to reclaim memory.
 
 ## Background work
 
-Anything beyond a brief finish window after `pause` needs an explicit mechanism —
-finish tasks, scheduled jobs, or a declared background mode. See
-[../guides/background-tasks.md](../guides/background-tasks).
+Anything beyond a brief finish window after `pause` needs an explicit mechanism — finish tasks, scheduled jobs, or a declared background mode. See [../guides/background-tasks.md](../guides/background-tasks).
 
 ## Restoring state
 
@@ -72,13 +69,11 @@ app.onLifecycle((ev) => {
 // on launch, read it and navigate
 ```
 
-Combine with deep-link routing ([ipc-and-intents.md](ipc-and-intents)) so the app can
-open directly to a screen.
+Combine with deep-link routing ([ipc-and-intents.md](ipc-and-intents)) so the app can open directly to a screen.
 
 ## Cold vs. warm start
 
-- **Cold start:** process spawned fresh → `launch`. Keep launch work minimal; defer heavy
-  loads until after first paint.
+- **Cold start:** process spawned fresh → `launch`. Keep launch work minimal; defer heavy loads until after first paint.
 - **Warm resume:** process still alive → `resume`. Fast; just refresh stale data.
 
 Measure both with [../tooling/profiling.md](../tooling/profiling).
